@@ -1,0 +1,102 @@
+package org.firstinspires.ftc.teamcode.autonomous;
+
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.components.LanderLatch;
+import org.firstinspires.ftc.teamcode.components.Sampler;
+import org.firstinspires.ftc.teamcode.components.TeamMarker;
+import org.firstinspires.ftc.teamcode.robotplus.autonomous.TimeOffsetVoltage;
+import org.firstinspires.ftc.teamcode.robotplus.hardware.IMUWrapper;
+import org.firstinspires.ftc.teamcode.robotplus.hardware.MecanumDrive;
+import org.firstinspires.ftc.teamcode.robotplus.hardware.Robot;
+
+@Autonomous(name = "Gold")
+public class Gold extends LinearOpMode {
+    private Robot robot;
+    private MecanumDrive drivetrain;
+    private IMUWrapper imu;
+    private LanderLatch landerLatch;
+    private Sampler sampler;
+    private TeamMarker teamMarker;
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        robot = new Robot(hardwareMap);
+        drivetrain = (MecanumDrive) robot.getDrivetrain();
+        imu = new IMUWrapper(hardwareMap);
+        landerLatch = new LanderLatch(hardwareMap);
+        sampler = new Sampler(hardwareMap);
+        teamMarker = new TeamMarker(hardwareMap);
+
+        // Unlatch from the lander
+        landerLatch.raise();
+        sleep(6400); // TODO: Fix times
+        landerLatch.stop();
+        moveDistanceCm(MecanumDrive.Direction.DOWN, 5);
+        landerLatch.lower();
+        sleep(1000);
+        landerLatch.stop();
+        moveDistanceCm(MecanumDrive.Direction.UP, 5);
+
+        // Move towards sampling area
+        // 44cm from unlatching position to sampling line
+        moveDistanceCm(MecanumDrive.Direction.LEFT, 44);
+
+        // Move bot according to position of color sensor along left side
+
+        boolean isMiddle = false, isRight = false;
+
+        // Check over middle mineral
+        isMiddle = checkAndBumpGoldMineral();
+
+        // 14.5in = 36.83cm between minerals
+        double betweenMinerals = 36.83;
+
+        if (!isMiddle) {
+            // Move to right mineral
+            moveDistanceCm(MecanumDrive.Direction.UP, betweenMinerals);
+            isRight = checkAndBumpGoldMineral();
+
+            if (!isRight) {
+                // Move to left mineral
+                moveDistanceCm(MecanumDrive.Direction.DOWN, 2 * betweenMinerals);
+                checkAndBumpGoldMineral();
+            }
+        }
+
+        // Move and rotate bot to edge of field
+        int multiplier = 0;
+        if (isMiddle) multiplier = 1;
+        if (isRight)  multiplier = 2;
+        moveDistanceCm(MecanumDrive.Direction.DOWN, multiplier * betweenMinerals);
+        // 45° angle from sample line to field edge
+        drivetrain.setAngle(imu, -(Math.PI / 4));
+
+        // Move to edge, 13cm from rotated left position
+        moveDistanceCm(MecanumDrive.Direction.DOWN, 13);
+
+        // Move down to depot, approximately 2 tiles length (4ft = 121.92cm)
+        moveDistanceCm(MecanumDrive.Direction.LEFT, 121.92);
+
+        // Drop team marker
+        teamMarker.dumpMarker();
+    }
+
+    private void moveDistanceCm(MecanumDrive.Direction direction, double distance) {
+        drivetrain.complexDrive(direction.angle(), 1, 0);
+        double voltage = hardwareMap.voltageSensor.get("Expansion Hub 1").getVoltage();
+        sleep(TimeOffsetVoltage.calculateDistance(voltage, distance));
+        robot.stopMoving();
+    }
+
+    /**
+     * @return whether the gold mineral is in front of the color sensor
+     */
+    private boolean checkAndBumpGoldMineral() {
+        boolean isGold = sampler.checkForGold();
+        if (isGold) sampler.bumpMineral();
+
+        return isGold;
+    }
+}

@@ -23,10 +23,18 @@ public class Sampler {
         return hsv[0] > 40;
     }
 
-    public void bumpMineral() {
-        servo.setPosition(0.2);
-        // Move back to center position
+    public void moveOut() {
+        servo.setPosition(0.1);
+    }
+
+    public void moveCenter() {
         servo.setPosition(0.5);
+    }
+
+    public void bumpMineral() {
+        moveOut();
+        // Move back to center position
+        moveCenter();
     }
 
 }

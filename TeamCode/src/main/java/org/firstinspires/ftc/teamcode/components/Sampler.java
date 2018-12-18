@@ -24,7 +24,7 @@ public class Sampler {
     }
 
     public void moveOut() {
-        servo.setPosition(0.1);
+        servo.setPosition(0.9);
     }
 
     public void moveCenter() {

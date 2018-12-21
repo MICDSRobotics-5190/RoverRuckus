@@ -31,17 +31,21 @@ public class LatcherSamplerServo extends OpMode {
     public void loop() {
         drivetrain.complexDrive(gamepad1, telemetry);
 
-        if (player1.a.isDown()) {
+        telemetry.addData("A button", gamepad1.a);
+        telemetry.addData("B button", gamepad1.b);
+        if (gamepad1.a) {
             landerLatch.raise();
-        } else if (player1.b.isDown()) {
+        } else if (gamepad1.b) {
             landerLatch.lower();
         } else {
             landerLatch.stop();
         }
 
-        if (player1.x.isDown()) {
+        telemetry.addData("X button", gamepad1.x);
+        telemetry.addData("Y button", gamepad1.y);
+        if (gamepad1.x) {
             sampler.moveOut();
-        } else if (player1.y.isDown()) {
+        } else if (gamepad1.y) {
             sampler.moveCenter();
         }
     }

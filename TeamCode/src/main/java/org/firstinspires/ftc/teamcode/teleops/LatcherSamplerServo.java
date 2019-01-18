@@ -34,9 +34,9 @@ public class LatcherSamplerServo extends OpMode {
         telemetry.addData("A button", gamepad1.a);
         telemetry.addData("B button", gamepad1.b);
         if (gamepad1.a) {
-            landerLatch.raise();
+            landerLatch.raiseRobot();
         } else if (gamepad1.b) {
-            landerLatch.lower();
+            landerLatch.lowerRobot();
         } else {
             landerLatch.stop();
         }

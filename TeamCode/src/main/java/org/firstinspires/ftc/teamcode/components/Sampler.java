@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.components;
 
+import android.util.Log;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -19,21 +22,26 @@ public class Sampler {
         colorSensor.capHSVData();
         float[] hsv = colorSensor.getHsvValues();
 
-        // Gold minerals hue is ~40°
-        return hsv[0] > 40;
+        Log.d("Sampler", "hue: " + hsv[0] + ", saturation: " + hsv[1] + ", value: " + hsv[2]);
+
+        return hsv[0] < 26;
     }
 
     public void moveOut() {
-        servo.setPosition(0.9);
+        servo.setPosition(1);
     }
 
     public void moveCenter() {
         servo.setPosition(0.5);
     }
 
-    public void bumpMineral() {
+    public void bumpMineral(LinearOpMode opMode) {
+        Log.d("Sampler", "moving out");
         moveOut();
+        // Allow time to move
+        opMode.sleep(2000);
         // Move back to center position
+        Log.d("Sampler", "moving center");
         moveCenter();
     }
 

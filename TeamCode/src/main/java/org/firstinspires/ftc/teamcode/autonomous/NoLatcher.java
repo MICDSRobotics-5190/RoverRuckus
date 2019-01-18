@@ -28,11 +28,11 @@ public class NoLatcher extends LinearOpMode {
         teamMarker = new TeamMarker(hardwareMap);
 
         // Unlatch from the lander
-//        landerLatch.raise();
+//        landerLatch.raiseRobot();
 //        sleep(6400); // TODO: Fix times
 //        landerLatch.stop();
 //        moveDistanceCm(MecanumDrive.Direction.DOWN, 5);
-//        landerLatch.lower();
+//        landerLatch.lowerRobot();
 //        sleep(1000);
 //        landerLatch.stop();
 //        moveDistanceCm(MecanumDrive.Direction.UP, 5);
@@ -94,7 +94,7 @@ public class NoLatcher extends LinearOpMode {
      */
     private boolean checkAndBumpGoldMineral() {
         boolean isGold = sampler.checkForGold();
-        if (isGold) sampler.bumpMineral();
+        if (isGold) sampler.bumpMineral(this);
 
         return isGold;
     }

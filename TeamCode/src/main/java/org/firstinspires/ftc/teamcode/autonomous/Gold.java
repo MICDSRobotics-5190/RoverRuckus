@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -29,19 +31,17 @@ public class Gold extends LinearOpMode {
         sampler = new Sampler(hardwareMap);
         teamMarker = new TeamMarker(hardwareMap);
 
+        waitForStart();
+
         // Unlatch from the lander
-        landerLatch.raise();
-        sleep(6400); // TODO: Fix times
-        landerLatch.stop();
-        moveDistanceCm(MecanumDrive.Direction.DOWN, 5);
-        landerLatch.lower();
-        sleep(1000);
-        landerLatch.stop();
-        moveDistanceCm(MecanumDrive.Direction.UP, 5);
+//        landerLatch.lowerRobotAuto();
+        moveDistanceCm(MecanumDrive.Direction.DOWN, 15);
+//        landerLatch.raiseRobotAuto();
+        moveDistanceCm(MecanumDrive.Direction.UP, 20);
 
         // Move towards sampling area
         // 44cm from unlatching position to sampling line
-        moveDistanceCm(MecanumDrive.Direction.LEFT, 44);
+        moveDistanceCm(MecanumDrive.Direction.LEFT, 64);
 
         // Move bot according to position of color sensor along left side
 
@@ -51,7 +51,7 @@ public class Gold extends LinearOpMode {
         isMiddle = checkAndBumpGoldMineral();
 
         // 14.5in = 36.83cm between minerals
-        double betweenMinerals = 36.83;
+        double betweenMinerals = 33;
 
         if (!isMiddle) {
             // Move to right mineral
@@ -61,15 +61,15 @@ public class Gold extends LinearOpMode {
             if (!isRight) {
                 // Move to left mineral
                 moveDistanceCm(MecanumDrive.Direction.DOWN, 2 * betweenMinerals);
-                checkAndBumpGoldMineral();
+                sampler.bumpMineral(this);
             }
         }
 
         // Move and rotate bot to edge of field
-        int multiplier = 0;
+        double multiplier = 0;
         if (isMiddle) multiplier = 1;
-        if (isRight)  multiplier = 2;
-        moveDistanceCm(MecanumDrive.Direction.DOWN, multiplier * betweenMinerals);
+        if (isRight)  multiplier = 1.7;
+        moveDistanceCm(MecanumDrive.Direction.DOWN, (multiplier * betweenMinerals) + 35);
         // 45° angle from sample line to field edge
         drivetrain.setAngle(imu, -(Math.PI / 4));
 
@@ -84,9 +84,12 @@ public class Gold extends LinearOpMode {
     }
 
     private void moveDistanceCm(MecanumDrive.Direction direction, double distance) {
+        if (distance <= 0) return;
         drivetrain.complexDrive(direction.angle(), 1, 0);
-        double voltage = hardwareMap.voltageSensor.get("Expansion Hub 1").getVoltage();
-        sleep(TimeOffsetVoltage.calculateDistance(voltage, distance));
+        double voltage = hardwareMap.voltageSensor.get("Expansion Hub 2").getVoltage();
+        long sleepTime = TimeOffsetVoltage.calculateDistance(voltage, distance);
+        Log.d("OpMode", "sleep time: " + sleepTime);
+        sleep(sleepTime);
         robot.stopMoving();
     }
 
@@ -94,8 +97,10 @@ public class Gold extends LinearOpMode {
      * @return whether the gold mineral is in front of the color sensor
      */
     private boolean checkAndBumpGoldMineral() {
+        sleep(1000);
         boolean isGold = sampler.checkForGold();
-        if (isGold) sampler.bumpMineral();
+        Log.d("OpMode", "is gold: " + isGold);
+        if (isGold) sampler.bumpMineral(this);
 
         return isGold;
     }

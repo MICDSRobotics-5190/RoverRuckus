@@ -11,41 +11,52 @@ import org.firstinspires.ftc.teamcode.robotplus.hardware.Motor;
  */
 public class LanderLatch {
 
-    private static final double TOTAL_REVOLUTIONS = 18.5;
+    public static final double TOTAL_REVOLUTIONS = 18;
 
     private DcMotor elevator;
+    private boolean usingEncoders;
 
-    public LanderLatch(HardwareMap hardwareMap) {
+    public LanderLatch(HardwareMap hardwareMap, boolean encoders) {
         elevator = hardwareMap.get(DcMotor.class, "elevator");
+        usingEncoders = encoders;
+        if (usingEncoders) {
+            elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        } else {
+            elevator.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+
         stop();
     }
 
-    public void lowerRobotAuto() {
+    public void raiseLiftAuto() {
         elevator.setTargetPosition((int) -(TOTAL_REVOLUTIONS * Motor.CORE_HEX.getCountsPerRevolution()));
-        lowerRobot();
+        raiseLift();
         while (elevator.isBusy()) { }
         stop();
     }
 
-    public void raiseRobotAuto() {
-        elevator.setTargetPosition((int) (TOTAL_REVOLUTIONS * Motor.CORE_HEX.getCountsPerRevolution()));
-        raiseRobot();
+    // We're only moving it down a little bit so we don't have to raise it all the way during teleop
+    public void lowerLiftAuto(double revolutions) {
+        elevator.setTargetPosition((int) (revolutions * Motor.CORE_HEX.getCountsPerRevolution()));
+        lowerLift();
         while (elevator.isBusy()) { }
         stop();
     }
 
-    public void lowerRobot() {
+    public void raiseLift() {
         elevator.setPower(-1);
     }
 
-    public void raiseRobot() {
+    public void lowerLift() {
         elevator.setPower(1);
     }
 
     public void stop() {
         elevator.setPower(0);
-        elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if (usingEncoders) {
+            elevator.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            elevator.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
 
 }

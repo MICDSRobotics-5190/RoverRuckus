@@ -27,21 +27,22 @@ public class Gold extends LinearOpMode {
         robot = new Robot(hardwareMap);
         drivetrain = (MecanumDrive) robot.getDrivetrain();
         imu = new IMUWrapper(hardwareMap);
-        landerLatch = new LanderLatch(hardwareMap);
+        landerLatch = new LanderLatch(hardwareMap, true);
         sampler = new Sampler(hardwareMap);
         teamMarker = new TeamMarker(hardwareMap);
 
         waitForStart();
 
         // Unlatch from the lander
-//        landerLatch.lowerRobotAuto();
-        moveDistanceCm(MecanumDrive.Direction.DOWN, 15);
-//        landerLatch.raiseRobotAuto();
-        moveDistanceCm(MecanumDrive.Direction.UP, 20);
+        landerLatch.raiseLiftAuto();
+        moveDistanceCm(MecanumDrive.Direction.DOWN, 17);
+        moveDistanceCm(MecanumDrive.Direction.LEFT, 20);
+//        landerLatch.lowerLiftAuto(7);
+        moveDistanceCm(MecanumDrive.Direction.UP, 22);
 
         // Move towards sampling area
         // 44cm from unlatching position to sampling line
-        moveDistanceCm(MecanumDrive.Direction.LEFT, 64);
+        moveDistanceCm(MecanumDrive.Direction.LEFT, 63);
 
         // Move bot according to position of color sensor along left side
 
@@ -70,27 +71,33 @@ public class Gold extends LinearOpMode {
         if (isMiddle) multiplier = 1;
         if (isRight)  multiplier = 1.7;
         moveDistanceCm(MecanumDrive.Direction.DOWN, (multiplier * betweenMinerals) + 35);
+
         // 45° angle from sample line to field edge
-        drivetrain.setAngle(imu, -(Math.PI / 4));
+        drivetrain.complexDrive(0, 0, -1);
+        sleepDistance(22);
 
         // Move to edge, 13cm from rotated left position
-        moveDistanceCm(MecanumDrive.Direction.DOWN, 13);
+        moveDistanceCm(MecanumDrive.Direction.DOWN, 20);
 
         // Move down to depot, approximately 2 tiles length (4ft = 121.92cm)
         moveDistanceCm(MecanumDrive.Direction.LEFT, 121.92);
 
         // Drop team marker
-        teamMarker.dumpMarker();
+        teamMarker.dumpMarker(this);
     }
 
-    private void moveDistanceCm(MecanumDrive.Direction direction, double distance) {
-        if (distance <= 0) return;
-        drivetrain.complexDrive(direction.angle(), 1, 0);
+    private void sleepDistance(double distance) {
         double voltage = hardwareMap.voltageSensor.get("Expansion Hub 2").getVoltage();
         long sleepTime = TimeOffsetVoltage.calculateDistance(voltage, distance);
         Log.d("OpMode", "sleep time: " + sleepTime);
         sleep(sleepTime);
         robot.stopMoving();
+    }
+
+    private void moveDistanceCm(MecanumDrive.Direction direction, double distance) {
+        if (distance <= 0) return;
+        drivetrain.complexDrive(direction.angle(), 1, 0);
+        sleepDistance(distance);
     }
 
     /**

@@ -39,7 +39,7 @@ public class Sampler {
         Log.d("Sampler", "moving out");
         moveOut();
         // Allow time to move
-        opMode.sleep(2000);
+        opMode.sleep(1500);
         // Move back to center position
         Log.d("Sampler", "moving center");
         moveCenter();

@@ -10,21 +10,21 @@ public class EncoderTest extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        LanderLatch landerLatch = new LanderLatch(hardwareMap);
+        LanderLatch landerLatch = new LanderLatch(hardwareMap, true);
 
         waitForStart();
 
-        telemetry.addData("state", "before lowerRobot");
+        telemetry.addData("state", "before raiseLift");
         telemetry.update();
 
-        landerLatch.lowerRobotAuto();
+        landerLatch.raiseLiftAuto();
 
-        telemetry.addData("state", "after lowerRobot");
+        telemetry.addData("state", "after raiseLift");
         telemetry.update();
 
-        landerLatch.raiseRobotAuto();
+        landerLatch.lowerLiftAuto(LanderLatch.TOTAL_REVOLUTIONS);
 
-        telemetry.addData("state", "after raiseRobot");
+        telemetry.addData("state", "after lowerLift");
         telemetry.update();
     }
 

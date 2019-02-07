@@ -28,11 +28,11 @@ public class NoLatcher extends LinearOpMode {
         teamMarker = new TeamMarker(hardwareMap);
 
         // Unlatch from the lander
-//        landerLatch.raiseRobot();
+//        landerLatch.lowerLift();
 //        sleep(6400); // TODO: Fix times
 //        landerLatch.stop();
 //        moveDistanceCm(MecanumDrive.Direction.DOWN, 5);
-//        landerLatch.lowerRobot();
+//        landerLatch.raiseLift();
 //        sleep(1000);
 //        landerLatch.stop();
 //        moveDistanceCm(MecanumDrive.Direction.UP, 5);
@@ -78,7 +78,7 @@ public class NoLatcher extends LinearOpMode {
         moveDistanceCm(MecanumDrive.Direction.LEFT, 121.92);
 
         // Drop team marker
-        teamMarker.dumpMarker();
+        teamMarker.dumpMarker(this);
     }
 
     private void moveDistanceCm(MecanumDrive.Direction direction, double distance) {

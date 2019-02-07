@@ -23,7 +23,7 @@ public class LatcherSamplerServo extends OpMode {
         robot = new Robot(hardwareMap);
         drivetrain = (MecanumDrive) robot.getDrivetrain();
         player1 = new Controller(gamepad1);
-        landerLatch = new LanderLatch(hardwareMap);
+        landerLatch = new LanderLatch(hardwareMap, false);
         sampler = new Sampler(hardwareMap);
     }
 
@@ -34,9 +34,9 @@ public class LatcherSamplerServo extends OpMode {
         telemetry.addData("A button", gamepad1.a);
         telemetry.addData("B button", gamepad1.b);
         if (gamepad1.a) {
-            landerLatch.raiseRobot();
+            landerLatch.lowerLift();
         } else if (gamepad1.b) {
-            landerLatch.lowerRobot();
+            landerLatch.raiseLift();
         } else {
             landerLatch.stop();
         }

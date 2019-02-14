@@ -25,12 +25,12 @@ public class Arm {
 
     public void liftUp()
     {
-        robotShoulder.setPower(1);
+        robotShoulder.setPower(0.7);
     }
 
     public void liftDown()
     {
-        robotShoulder.setPower(-1);
+        robotShoulder.setPower(-0.5);
     }
 
     public void stop()

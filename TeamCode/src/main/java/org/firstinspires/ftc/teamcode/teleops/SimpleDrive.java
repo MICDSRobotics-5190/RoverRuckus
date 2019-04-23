@@ -3,18 +3,19 @@ package org.firstinspires.ftc.teamcode.teleops;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.robotplus.hardware.MecanumDrive;
-import org.firstinspires.ftc.teamcode.robotplus.hardware.Robot;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
+import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
 
 @TeleOp(name = "Simple Drivetrain")
 public class SimpleDrive extends OpMode {
 
-    private Robot robot;
+    private Robot robot = new RoverRuckusRobot();
     private MecanumDrive drivetrain;
 
     @Override
     public void init() {
-        robot = new Robot(hardwareMap);
+        robot.initHardware(hardwareMap);
         drivetrain = (MecanumDrive) robot.getDrivetrain();
     }
 

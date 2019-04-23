@@ -5,17 +5,18 @@ import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.micdsrobotics.robotplus.autonomous.TimeOffsetVoltage;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.IMUWrapper;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
 import org.firstinspires.ftc.teamcode.components.LanderLatch;
+import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
 import org.firstinspires.ftc.teamcode.components.Sampler;
 import org.firstinspires.ftc.teamcode.components.TeamMarker;
-import org.firstinspires.ftc.teamcode.robotplus.autonomous.TimeOffsetVoltage;
-import org.firstinspires.ftc.teamcode.robotplus.hardware.IMUWrapper;
-import org.firstinspires.ftc.teamcode.robotplus.hardware.MecanumDrive;
-import org.firstinspires.ftc.teamcode.robotplus.hardware.Robot;
 
 @Autonomous(name = "Gold")
 public class Gold extends LinearOpMode {
-    private Robot robot;
+    private Robot robot = new RoverRuckusRobot();
     private MecanumDrive drivetrain;
     private IMUWrapper imu;
     private LanderLatch landerLatch;
@@ -24,7 +25,7 @@ public class Gold extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(hardwareMap);
+        robot.initHardware(hardwareMap);
         drivetrain = (MecanumDrive) robot.getDrivetrain();
         imu = new IMUWrapper(hardwareMap);
         landerLatch = new LanderLatch(hardwareMap, true);
@@ -88,7 +89,7 @@ public class Gold extends LinearOpMode {
 
     private void sleepDistance(double distance) {
         double voltage = hardwareMap.voltageSensor.get("Expansion Hub 2").getVoltage();
-        long sleepTime = TimeOffsetVoltage.calculateDistance(voltage, distance);
+        long sleepTime = TimeOffsetVoltage.calculateDistance(robot, voltage, distance);
         Log.d("OpMode", "sleep time: " + sleepTime);
         sleep(sleepTime);
         robot.stopMoving();

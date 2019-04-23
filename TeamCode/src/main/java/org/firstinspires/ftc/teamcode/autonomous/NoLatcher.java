@@ -4,16 +4,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.components.LanderLatch;
+import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
 import org.firstinspires.ftc.teamcode.components.Sampler;
 import org.firstinspires.ftc.teamcode.components.TeamMarker;
-import org.firstinspires.ftc.teamcode.robotplus.autonomous.TimeOffsetVoltage;
-import org.firstinspires.ftc.teamcode.robotplus.hardware.IMUWrapper;
-import org.firstinspires.ftc.teamcode.robotplus.hardware.MecanumDrive;
-import org.firstinspires.ftc.teamcode.robotplus.hardware.Robot;
+import org.firstinspires.ftc.micdsrobotics.robotplus.autonomous.TimeOffsetVoltage;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.IMUWrapper;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
 
 @Autonomous(name = "No Latch")
 public class NoLatcher extends LinearOpMode {
-    private Robot robot;
+    private Robot robot = new RoverRuckusRobot();
     private MecanumDrive drivetrain;
     private IMUWrapper imu;
     private Sampler sampler;
@@ -21,7 +22,7 @@ public class NoLatcher extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        robot = new Robot(hardwareMap);
+        robot.initHardware(hardwareMap);
         drivetrain = (MecanumDrive) robot.getDrivetrain();
         imu = new IMUWrapper(hardwareMap);
         sampler = new Sampler(hardwareMap);
@@ -85,7 +86,7 @@ public class NoLatcher extends LinearOpMode {
         if (distance <= 0) return;
         drivetrain.complexDrive(direction.angle(), 1, 0);
         double voltage = hardwareMap.voltageSensor.get("Expansion Hub 2").getVoltage();
-        sleep(TimeOffsetVoltage.calculateDistance(voltage, distance));
+        sleep(TimeOffsetVoltage.calculateDistance(robot, voltage, distance));
         robot.stopMoving();
     }
 

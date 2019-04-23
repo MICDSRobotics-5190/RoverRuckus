@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robotplus.hardware.ColorSensorWrapper;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.ColorSensorWrapper;
 
 @Autonomous(name = "Color Sensor Test", group = "Test")
 public class ColorSensorTest extends LinearOpMode {

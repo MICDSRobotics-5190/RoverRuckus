@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.components;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.robotplus.hardware.Motor;
+import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Motor;
 
 /**
  * @author Nick Clifford

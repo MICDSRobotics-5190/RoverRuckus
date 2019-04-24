@@ -12,7 +12,7 @@ dependencies {
     implementation (name: 'WirelessP2p-release', ext:'aar')
     implementation (name: 'tfod-release', ext:'aar')
     implementation (name: 'tensorflow-lite-0.0.0-nightly', ext:'aar')
-    implementation 'com.github.MICDSRobotics-5190:robotplus-standalone:1.0'
+    implementation 'com.github.MICDSRobotics-5190:robotplus-standalone:1.0.1'
     // Uncomment when testing robotplus changes
 //     implementation 'com.github.MICDSRobotics-5190:robotplus:1.0'
 }

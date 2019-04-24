@@ -33,7 +33,7 @@ public class RoverRuckusRobot extends Robot {
     }
 
     @Override
-    public double voltageDistanceAdapter(double v) {
+    public double voltageToDistance(double v) {
         return (5.6417 * v) - 33.162;
     }
 }

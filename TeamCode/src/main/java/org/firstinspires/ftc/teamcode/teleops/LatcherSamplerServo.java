@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode.teleops;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
-import org.firstinspires.ftc.micdsrobotics.robotplus.gamepadwrapper.Controller;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
-import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
 import org.firstinspires.ftc.teamcode.components.LanderLatch;
 import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
 import org.firstinspires.ftc.teamcode.components.Sampler;
@@ -13,17 +10,15 @@ import org.firstinspires.ftc.teamcode.components.Sampler;
 @TeleOp(name = "Latcher/Sampler Servo")
 public class LatcherSamplerServo extends OpMode {
 
-    private Robot robot = new RoverRuckusRobot();
+    private RoverRuckusRobot robot = new RoverRuckusRobot();
     private MecanumDrive drivetrain;
-    private Controller player1;
     private LanderLatch landerLatch;
     private Sampler sampler;
 
     @Override
     public void init() {
         robot.initHardware(hardwareMap);
-        drivetrain = (MecanumDrive) robot.getDrivetrain();
-        player1 = new Controller(gamepad1);
+        drivetrain = robot.getDrivetrain();
         landerLatch = new LanderLatch(hardwareMap, false);
         sampler = new Sampler(hardwareMap);
     }

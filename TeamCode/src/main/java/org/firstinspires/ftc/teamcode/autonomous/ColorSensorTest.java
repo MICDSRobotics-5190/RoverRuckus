@@ -2,13 +2,12 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.ColorSensorWrapper;
 
 @Autonomous(name = "Color Sensor Test", group = "Test")
 public class ColorSensorTest extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         ColorSensorWrapper colorSensor = new ColorSensorWrapper(hardwareMap);
 
         waitForStart();

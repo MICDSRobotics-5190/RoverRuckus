@@ -2,21 +2,19 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.micdsrobotics.robotplus.autonomous.TimeOffsetVoltage;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
-import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
 import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
 
 @Autonomous(name = "Test Auto Moving", group = "Test")
 public class MoveAutoTest extends LinearOpMode {
-    private Robot robot = new RoverRuckusRobot();
+    private RoverRuckusRobot robot = new RoverRuckusRobot();
     private MecanumDrive drivetrain;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         robot.initHardware(hardwareMap);
-        drivetrain = (MecanumDrive) robot.getDrivetrain();
+        drivetrain = robot.getDrivetrain();
 
         waitForStart();
 

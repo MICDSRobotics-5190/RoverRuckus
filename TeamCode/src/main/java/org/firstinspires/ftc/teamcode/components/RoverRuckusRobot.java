@@ -3,11 +3,10 @@ package org.firstinspires.ftc.teamcode.components;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
 
-public class RoverRuckusRobot extends Robot {
+public class RoverRuckusRobot extends Robot<MecanumDrive> {
     @Override
     public void initHardware(HardwareMap hardwareMap) {
         DcMotor main1 = hardwareMap.dcMotor.get("main1");

@@ -5,14 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.micdsrobotics.robotplus.autonomous.TimeOffsetVoltage;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.IMUWrapper;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
-import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
 import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
 import org.firstinspires.ftc.teamcode.components.Sampler;
 import org.firstinspires.ftc.teamcode.components.TeamMarker;
 
 @Autonomous(name = "No Latch")
 public class NoLatcher extends LinearOpMode {
-    private Robot robot = new RoverRuckusRobot();
+    private RoverRuckusRobot robot = new RoverRuckusRobot();
     private MecanumDrive drivetrain;
     private IMUWrapper imu;
     private Sampler sampler;
@@ -21,7 +20,7 @@ public class NoLatcher extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.initHardware(hardwareMap);
-        drivetrain = (MecanumDrive) robot.getDrivetrain();
+        drivetrain = robot.getDrivetrain();
         imu = new IMUWrapper(hardwareMap);
         sampler = new Sampler(hardwareMap);
         teamMarker = new TeamMarker(hardwareMap);

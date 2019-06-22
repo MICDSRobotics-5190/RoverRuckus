@@ -4,9 +4,7 @@ import android.util.Log;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.micdsrobotics.robotplus.autonomous.TimeOffsetVoltage;
-import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.IMUWrapper;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
-import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
 import org.firstinspires.ftc.teamcode.components.LanderLatch;
 import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
 import org.firstinspires.ftc.teamcode.components.Sampler;
@@ -14,9 +12,8 @@ import org.firstinspires.ftc.teamcode.components.TeamMarker;
 
 @Autonomous(name = "Gold")
 public class Gold extends LinearOpMode {
-    private Robot robot = new RoverRuckusRobot();
+    private RoverRuckusRobot robot = new RoverRuckusRobot();
     private MecanumDrive drivetrain;
-    private IMUWrapper imu;
     private LanderLatch landerLatch;
     private Sampler sampler;
     private TeamMarker teamMarker;
@@ -24,8 +21,7 @@ public class Gold extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.initHardware(hardwareMap);
-        drivetrain = (MecanumDrive) robot.getDrivetrain();
-        imu = new IMUWrapper(hardwareMap);
+        drivetrain = robot.getDrivetrain();
         landerLatch = new LanderLatch(hardwareMap, true);
         sampler = new Sampler(hardwareMap);
         teamMarker = new TeamMarker(hardwareMap);

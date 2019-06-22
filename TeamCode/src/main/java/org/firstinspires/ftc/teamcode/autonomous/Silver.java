@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import android.util.Log;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.micdsrobotics.robotplus.autonomous.TimeOffsetVoltage;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.IMUWrapper;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
@@ -24,7 +22,7 @@ public class Silver extends LinearOpMode {
     private TeamMarker teamMarker;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         robot.initHardware(hardwareMap);
         drivetrain = (MecanumDrive) robot.getDrivetrain();
         imu = new IMUWrapper(hardwareMap);
@@ -47,7 +45,7 @@ public class Silver extends LinearOpMode {
 
         // Move bot according to position of color sensor along left side
 
-        boolean isMiddle = false, isRight = false;
+        boolean isMiddle, isRight = false;
 
         // Check over middle mineral
         isMiddle = checkAndBumpGoldMineral();
@@ -88,7 +86,7 @@ public class Silver extends LinearOpMode {
         //sleepDistance(88);
 
         // Drop team marker
-        teamMarker.dumpMarker(this);
+        teamMarker.dumpMarkerAuto(this);
     }
 
     private void sleepDistance(double distance) {

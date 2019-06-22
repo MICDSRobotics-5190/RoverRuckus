@@ -2,15 +2,13 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.teamcode.components.LanderLatch;
-import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
-import org.firstinspires.ftc.teamcode.components.Sampler;
-import org.firstinspires.ftc.teamcode.components.TeamMarker;
 import org.firstinspires.ftc.micdsrobotics.robotplus.autonomous.TimeOffsetVoltage;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.IMUWrapper;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.MecanumDrive;
 import org.firstinspires.ftc.micdsrobotics.robotplus.hardware.Robot;
+import org.firstinspires.ftc.teamcode.components.RoverRuckusRobot;
+import org.firstinspires.ftc.teamcode.components.Sampler;
+import org.firstinspires.ftc.teamcode.components.TeamMarker;
 
 @Autonomous(name = "No Latch")
 public class NoLatcher extends LinearOpMode {
@@ -21,7 +19,7 @@ public class NoLatcher extends LinearOpMode {
     private TeamMarker teamMarker;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         robot.initHardware(hardwareMap);
         drivetrain = (MecanumDrive) robot.getDrivetrain();
         imu = new IMUWrapper(hardwareMap);
@@ -44,7 +42,7 @@ public class NoLatcher extends LinearOpMode {
 
         // Move bot according to position of color sensor along left side
 
-        boolean isMiddle = false, isRight = false;
+        boolean isMiddle, isRight = false;
 
         // Check over middle mineral
         isMiddle = checkAndBumpGoldMineral();
@@ -79,7 +77,7 @@ public class NoLatcher extends LinearOpMode {
         moveDistanceCm(MecanumDrive.Direction.LEFT, 121.92);
 
         // Drop team marker
-        teamMarker.dumpMarker(this);
+        teamMarker.dumpMarkerAuto(this);
     }
 
     private void moveDistanceCm(MecanumDrive.Direction direction, double distance) {
